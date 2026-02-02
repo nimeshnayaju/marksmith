@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+
+.turbo
+
+.vscode
+
+.next/
+out/
+build
+dist
+

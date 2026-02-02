@@ -1,0 +1,38 @@
+{
+	"name": "marksmith",
+	"description": "A streaming-capable markdown parser.",
+	"version": "0.0.1",
+	"license": "MIT",
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"dev": "bunchee --watch",
+		"build": "bunchee",
+		"test": "vitest run",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome lint ./src",
+		"format": "biome format ./src --write",
+		"check": "biome check ./src"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"devDependencies": {
+		"bunchee": "^6.9.4",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"vitest": "^3.2.4"
+	},
+	"dependencies": {
+		"entities": "^7.0.0"
+	}
+}

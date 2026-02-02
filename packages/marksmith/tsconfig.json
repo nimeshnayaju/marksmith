@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"noEmit": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"target": "es2022",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"esModuleInterop": true,
+		"stripInternal": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"verbatimModuleSyntax": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
+}

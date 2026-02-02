@@ -1,0 +1,22 @@
+{
+	"name": "marksmith",
+	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"lint": "biome lint",
+		"format": "biome format --write",
+		"check": "biome check"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.13",
+		"turbo": "^2.8.1"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"packageManager": "npm@11.5.2",
+	"workspaces": [
+		"packages/*"
+	]
+}
