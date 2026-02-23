@@ -1,5 +1,5 @@
 {
-	"name": "markings",
+	"name": "markdown-parser",
 	"private": true,
 	"scripts": {
 		"build": "turbo run build",

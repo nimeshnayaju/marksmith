@@ -1,5 +1,5 @@
 {
-	"name": "markings-react",
+	"name": "react-markdown-parser",
 	"version": "0.1.0",
 	"sideEffects": false,
 	"exports": {
@@ -13,7 +13,7 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"markings": "*",
+		"markdown-parser": "*",
 		"server-only": "^0.0.1"
 	},
 	"devDependencies": {

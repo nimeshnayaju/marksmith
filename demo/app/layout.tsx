@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Markings",
+	title: "Markdown Parser",
 };
 
 export default function RootLayout({

@@ -1,17 +1,17 @@
-# `markings-react`
+# `react-markdown-parser`
 
 A React server component to render markdown content.
 
 ## Installation
 
 ```bash
-npm install markings-react
+npm install react-markdown-parser
 ```
 
 ## Usage
 
 ```tsx
-import { Markdown } from "markings-react";
+import { Markdown } from "react-markdown-parser";
 
 export function Article({ content }: { content: string }) {
 	return (
@@ -26,7 +26,7 @@ It is possible to customize how markdown nodes are rendered by through the `comp
 
 
 ```tsx
-import { Markdown } from "markings-react";
+import { Markdown } from "react-markdown-parser";
 
 export function Article({ content }: { content: string }) {
 	return (

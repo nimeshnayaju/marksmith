@@ -18,7 +18,7 @@ export class MarkdownParser {
 	};
 	private nextLineIndex = 0;
 	private nextNodeIndex = 0;
-	#referenceDefinitions: Map<string, { href: string; title?: string }> =
+	private referenceDefinitions: Map<string, { href: string; title?: string }> =
 		new Map();
 	parse(input: string, options?: { stream?: boolean }): BlockNode[] {
 		const stream = options?.stream ?? false;
@@ -327,8 +327,8 @@ export class MarkdownParser {
 					let definition = parseLinkReferenceDefinition(lines);
 					while (definition !== null) {
 						const { label, href, title } = definition.definition;
-						if (!this.#referenceDefinitions.has(label)) {
-							this.#referenceDefinitions.set(label, { href, title });
+						if (!this.referenceDefinitions.has(label)) {
+							this.referenceDefinitions.set(label, { href, title });
 						}
 						lines = lines.slice(definition.nextLineIndex);
 						definition = parseLinkReferenceDefinition(lines);
@@ -529,8 +529,8 @@ export class MarkdownParser {
 				let definition = parseLinkReferenceDefinition(lines);
 				while (definition !== null) {
 					const { label, href, title } = definition.definition;
-					if (!this.#referenceDefinitions.has(label)) {
-						this.#referenceDefinitions.set(label, { href, title });
+					if (!this.referenceDefinitions.has(label)) {
+						this.referenceDefinitions.set(label, { href, title });
 					}
 					lines = lines.slice(definition.nextLineIndex);
 					definition = parseLinkReferenceDefinition(lines);
@@ -567,14 +567,14 @@ export class MarkdownParser {
 					type: "heading",
 					level: block.level,
 					children: parseInline(block.content, {
-						referenceDefinitions: this.#referenceDefinitions,
+						referenceDefinitions: this.referenceDefinitions,
 					}),
 				};
 			case "paragraph": {
 				return {
 					type: "paragraph",
 					children: parseInline(block.lines.join("\n").trim(), {
-						referenceDefinitions: this.#referenceDefinitions,
+						referenceDefinitions: this.referenceDefinitions,
 					}),
 				};
 			}
@@ -647,7 +647,7 @@ export class MarkdownParser {
 						cells: block.head.cells.map((cell, index) => ({
 							align: block.alignments[index],
 							children: parseInline(cell, {
-								referenceDefinitions: this.#referenceDefinitions,
+								referenceDefinitions: this.referenceDefinitions,
 							}),
 						})),
 					},
@@ -656,7 +656,7 @@ export class MarkdownParser {
 							cells: row.cells.map((cell, index) => ({
 								align: block.alignments[index],
 								children: parseInline(cell, {
-									referenceDefinitions: this.#referenceDefinitions,
+									referenceDefinitions: this.referenceDefinitions,
 								}),
 							})),
 						})),
@@ -696,6 +696,9 @@ function closeRightmostPath(
 		| ListNode_internal
 		| ListItemNode_internal,
 ): void {
+	// Find the deepest open node on the rightmost path of the parent container. Then, we close the node, traverse up the parent chain, closing the parent nodes until we reach the root node.
+	// You'll notice that this is not the most efficient way to do this, because we basically travel to the leaf from the parent and then back up to the parent. But, it is required for list tightness calculation.
+	// We could definitely optimize this by keeping track of the deepest open node from parsing the last line, but that would require a lot of additional state management, which is not worth the complexity for now.
 	let currentNode = getDeepestOpenNodeOnRightmostPath(parent);
 
 	while (currentNode !== parent) {
@@ -711,6 +714,7 @@ function closeRightmostPath(
 			case "blockquote":
 			case "list":
 			case "list-item": {
+				// When closing a container node, we update the start and end line indices based on their first and last child's start and end line indices.
 				const firstChild = currentNode.children.at(0);
 				const lastChild = currentNode.children.at(-1);
 				if (firstChild !== undefined) {
@@ -733,29 +737,6 @@ function closeRightmostPath(
 
 		if (currentNode.parent?.type === "root") break;
 		currentNode = currentNode.parent;
-	}
-
-	// Walk down the rightmost/last-child chain and close any still-open nodes until we hit a closed one (or run out).
-
-	// Start at the last child of the parent; we'll keep descending into the last child of certain container nodes (e.g., blockquotes).
-	let child = parent.children.at(-1);
-	while (child !== undefined) {
-		// If we've hit a node that is already closed, everything below it on this rightmost chain is assumed to be closed too, so we can stop early.
-		if (child.isClosed) break;
-		child.isClosed = true;
-
-		// If the child is a container node, we continue descending into the last child of the container node.
-		if (
-			child.type === "blockquote" ||
-			child.type === "list" ||
-			child.type === "list-item"
-		) {
-			child = child.children.at(-1);
-		}
-		// If the child is a leaf node, we stop descending and break out of the loop.
-		else {
-			break;
-		}
 	}
 }
 

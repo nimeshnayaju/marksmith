@@ -3,6 +3,12 @@ import { type InlineNode, unescapeString } from "../inline-parser";
 import { type BlockNode, MarkdownParser } from "../markdown-parser";
 import tests from "./commonmark-spec.json" with { type: "json" };
 
+it("should parse a markdown document into events", () => {
+	const parser = new MarkdownParser();
+	const nodes = parser.parse("1. foo\n   1.", { stream: false });
+	console.dir(nodes, { depth: null });
+});
+
 describe("Commonmark", () => {
 	const sections: Map<
 		string,

@@ -1,17 +1,17 @@
-# `markings`
+# `markdown-parser`
 
 A markdown parser with streaming support, suitable for incrementally parsing LLM markdown streams. Parses markdown into a structured fully typed tree of nodes, following the [CommonMark](https://commonmark.org/) specification. It supports streaming/incremental parsing, so you can feed it growing input and emit only the blocks that have become finalized.
 
 ## Installation
 
 ```bash
-npm install markings
+npm install markdown-parser
 ```
 
 ## Usage
 
 ```typescript
-import { MarkdownParser } from "markings";
+import { MarkdownParser } from "markdown-parser";
 
 const parser = new MarkdownParser();
 

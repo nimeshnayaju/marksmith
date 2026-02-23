@@ -1,4 +1,4 @@
-import { Markdown } from "markings-react";
+import { Markdown } from "react-markdown-parser";
 
 export default function Home() {
 	return (
