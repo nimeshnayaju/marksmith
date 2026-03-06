@@ -80,7 +80,7 @@ export async function POST(request: Request) {
 				},
 				body: JSON.stringify({
 					model: "claude-haiku-4-5",
-					max_tokens: 16_000,
+					max_tokens: 1_024,
 					stream: true,
 					messages: messages,
 				}),
