@@ -1,7 +1,7 @@
 {
 	"name": "markdown-parser",
 	"description": "A streaming-capable markdown parser.",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"license": "MIT",
 	"type": "module",
 	"sideEffects": false,
